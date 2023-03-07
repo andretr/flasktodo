@@ -5,6 +5,21 @@
     <title>Flask TODO app</title>
 </head>
 <body>
-    <h1>Hello World!</h1>
+    <h1>Todos</h1>
+    <ul>
+        {% for todo in todos %}
+            <li>
+                <input type="checkbox" name="done" disabled {% if todo['done'] %} checked {%endif%} onchange="this.form.submit()">
+                <span  {% if todo['done'] %} style="text-decoration: line-through" {%endif%}>{{ todo['task'] }}</span>
+                <a href="{{ url_for('check', id=loop.index0) }}">Check</a>
+                <a href="{{ url_for('edit', id=loop.index0) }}">Edit</a>
+                <a href="{{ url_for('delete', id=loop.index0) }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <form action="{{url_for('add') }}" method="post">
+        <input type="text" name="todo">
+        <button type="submit">Add</button>
+    </form>
 </body>
 </html>
